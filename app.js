@@ -1,8 +1,12 @@
 const express = require('express');
-
+const routes = require('./routes');
 const app = express();
 
+
 app.set('view engine', 'pug');
+
+app.use('/margot', routes);
+app.use('/margeaux', routes);
 
 app.get('/', (req, res) => {
 
@@ -19,7 +23,9 @@ app.get('/capital-letters/:key', (req, res) => {
     res.send(capitalized);
 })
 
-app.all('*', (req, res)=> {
+
+
+app.all(/^\/(\w-)+/, (req, res)=> {
     const random = Math.floor(Math.random() * Math.floor(10))
     res.render('index', { path: req.path, method: req.method, random})
 })
